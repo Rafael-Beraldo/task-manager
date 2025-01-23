@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TaskService } from "../Service/TaskService";
+import { TaskService } from "../service/TaskService";
 
 const taskService = new TaskService();
 
