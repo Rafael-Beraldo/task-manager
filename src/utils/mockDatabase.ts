@@ -23,6 +23,7 @@ export const users: User[] = [
     id: "1",
     name: "Alice",
     email: "alice@example.com",
+    password: "$2b$10$thMdCCrOiOJEYpuJb2mDYeBSxM6.6rxh1jHUXIlTrqcP7Bcr5DRIq", // Senha "123"
     tasks: [],
     lastname: "",
     age: 0,
@@ -31,6 +32,7 @@ export const users: User[] = [
     id: "2",
     name: "Bob",
     email: "bob@example.com",
+    password: "$2b$10$thMdCCrOiOJEYpuJb2mDYeBSxM6.6rxh1jHUXIlTrqcP7Bcr5DRIq", // Senha "123"
     tasks: [],
     lastname: "",
     age: 0,
