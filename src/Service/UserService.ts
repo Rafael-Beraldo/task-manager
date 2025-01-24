@@ -2,21 +2,42 @@ import { users } from "../utils/mockDatabase";
 import { User } from "../models/User";
 import { Task } from "../models/Task";
 
+import bcrypt from "bcrypt";
+
 export class UserService {
-  getAllUsers(): User[] {
+  public getAllUsers(): User[] {
     return users;
   }
 
-  getUserById(id: string): User | undefined {
+  public getUserById(id: string): User | undefined {
     return users.find((user) => user.id === id);
   }
 
-  createUser(newUser: User): User {
+  public getUserByEmail(email: string): User | undefined {
+    return users.find((user) => user.email === email);
+  }
+
+  public async createUser(newUser: User): Promise<User> {
+    const hashedPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashedPassword;
+
     users.push(newUser);
     return newUser;
   }
 
-  addTaskToUser(id: string, task: Task): User | null {
+  public async validateUser(
+    email: string,
+    password: string
+  ): Promise<User | null> {
+    const user = users.find((user) => user.email === email);
+
+    if (!user) return null;
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    return isPasswordValid ? user : null;
+  }
+
+  public addTaskToUser(id: string, task: Task): User | null {
     const user = users.find((user) => user.id === id);
 
     if (!user) return null;
@@ -25,7 +46,7 @@ export class UserService {
     return user;
   }
 
-  updateUser(id: string, updatedUser: Partial<User>): User | null {
+  public updateUser(id: string, updatedUser: Partial<User>): User | null {
     const userIndex = users.findIndex((user) => user.id === id);
     if (userIndex === -1) return null;
 
@@ -33,7 +54,7 @@ export class UserService {
     return users[userIndex];
   }
 
-  deleteUser(id: string): boolean {
+  public deleteUser(id: string): boolean {
     const userIndex = users.findIndex((user) => user.id === id);
 
     if (userIndex === -1) return false;
